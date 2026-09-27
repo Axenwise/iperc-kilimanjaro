@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>IPERC Post-Test · Kilimanjaro</title>
+<meta name="description" content="Consulta simple de la matriz IPERC post-test: peligros, nivel de riesgo, controles, EPP, rutinas de trabajo seguro y descarga en Excel.">
+<meta name="theme-color" content="#1F4E79">
+<link rel="preload" as="image" href="assets/img/portada.jpg">
+<link rel="stylesheet" href="assets/css/estilo.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%231F4E79'/><path d='M50 22 28 31v20c0 15 9 27 22 31 13-4 22-16 22-31V31z' fill='none' stroke='white' stroke-width='7' stroke-linejoin='round'/></svg>">
+</head>
+<body>
+
+<!-- =============================================================== portada -->
+<header class="portada">
+  <img src="assets/img/portada.jpg" alt="" aria-hidden="true">
+  <button class="tema" id="tema" type="button" aria-pressed="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <span>Modo oscuro</span></button>
+  <div class="env">
+    <div class="marca">
+      <span class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.4 9.3 8 11 4.6-1.7 8-6 8-11V5l-8-3z"/></svg></span>
+      <span><b>Kilimanjaro Restaurant Café</b>
+        <span>Seguridad y Salud en el Trabajo &middot; Surco, Lima</span></span>
+    </div>
+    <h1>Los riesgos de tu puesto, explicados</h1>
+    <p class="bajada">Matriz IPERC despu&eacute;s de aplicar el plan. Busca tu &aacute;rea y mira, uno por uno,
+      qu&eacute; peligro hay, c&oacute;mo se trabaja bien y qu&eacute; hacer si algo pasa.</p>
+    <div class="kpis" id="kpis"></div>
+  </div>
+</header>
+
+<!-- ================================================================== menú -->
+<nav>
+  <div class="env" role="tablist" aria-label="Secciones">
+    <button class="tab" role="tab" id="t-panel" aria-selected="true" aria-controls="v-panel">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Panel</button>
+    <button class="tab" role="tab" id="t-areas" aria-selected="false" aria-controls="v-areas">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5M5 9.5V21h14V9.5"/></svg>&Aacute;reas</button>
+    <button class="tab" role="tab" id="t-fichas" aria-selected="false" aria-controls="v-fichas">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="14" width="18" height="7" rx="2"/></svg>Peligros</button>
+    <button class="tab" role="tab" id="t-tabla" aria-selected="false" aria-controls="v-tabla">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 5h18M3 12h18M3 19h18"/></svg>Lista</button>
+    <button class="tab" role="tab" id="t-rutinas" aria-selected="false" aria-controls="v-rutinas">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="8" y="3" width="8" height="4" rx="1"/><path d="M12 7v4m0 0H7v3m5-3h5v3"/><rect x="3" y="14" width="7" height="4" rx="1"/><rect x="14" y="14" width="7" height="4" rx="1"/></svg>Rutinas</button>
+    <button class="tab" role="tab" id="t-descargas" aria-selected="false" aria-controls="v-descargas">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 19h16"/></svg>Excel</button>
+  </div>
+</nav>
+
+<main class="env">
+
+  <!-- ============================================================== panel -->
+  <section id="v-panel" role="tabpanel" aria-labelledby="t-panel">
+    <div class="bloque">
+      <h2>C&oacute;mo cambi&oacute; el riesgo</h2>
+      <p class="ayuda">Los mismos 74 peligros, evaluados antes y despu&eacute;s del plan.
+        El nivel siempre va escrito, no solo en color.</p>
+      <div class="tarjetas" id="tarjetas"></div>
+      <div class="panel" id="p-barras"></div>
+    </div>
+
+    <div class="bloque">
+      <h2>Matriz de riesgo</h2>
+      <p class="ayuda">Cada casilla cruza la probabilidad de que ocurra con la gravedad del da&ntilde;o,
+        y muestra cu&aacute;ntos peligros caen ah&iacute;. Cuanto m&aacute;s arriba y m&aacute;s a la derecha, peor.</p>
+      <div class="panel">
+        <div class="conmutador" role="group" aria-label="Momento de la evaluaci&oacute;n">
+          <button type="button" data-m="pre" aria-pressed="false">Antes del plan</button>
+          <button type="button" data-m="post" aria-pressed="true">Hoy</button>
+        </div>
+        <div class="matriz-caja" id="p-matriz"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================== áreas -->
+  <section id="v-areas" role="tabpanel" aria-labelledby="t-areas" hidden>
+    <div class="bloque">
+      <h2>&iquest;D&oacute;nde trabajas?</h2>
+      <p class="ayuda">Toca tu &aacute;rea para ver solo los peligros que te tocan a ti.</p>
+      <div class="areas" id="areas"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================ peligros -->
+  <section id="v-fichas" role="tabpanel" aria-labelledby="t-fichas" hidden>
+    <button class="plegar" id="plegar" type="button" aria-expanded="false" aria-controls="filtros">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18l-7 8v6l-4 2v-8z"/></svg>
+      Filtrar y buscar</span><span class="quedan" id="quedan"></span>
+    </button>
+    <div class="filtros" id="filtros" hidden>
+      <div class="campo">
+        <p class="etq" id="e-area">&Aacute;rea</p>
+        <div class="chips" id="f-area" role="group" aria-labelledby="e-area"></div>
+      </div>
+      <div class="campo">
+        <p class="etq" id="e-tipo">Tipo de peligro</p>
+        <div class="chips" id="f-tipo" role="group" aria-labelledby="e-tipo"></div>
+      </div>
+      <div class="campo">
+        <p class="etq" id="e-niv">Nivel de riesgo hoy</p>
+        <div class="chips" id="f-niv" role="group" aria-labelledby="e-niv"></div>
+      </div>
+      <div class="campo buscar">
+        <label class="etq" for="q">Buscar por palabra</label>
+        <input id="q" type="search" placeholder="Ejemplo: piso mojado, cuchillo, gas&hellip;" autocomplete="off">
+        <button class="limpiar" id="borrar" type="button" hidden aria-label="Borrar la b&uacute;squeda">&times;</button>
+      </div>
+    </div>
+    <p class="cuenta" id="cuenta" aria-live="polite"></p>
+    <div id="lista-fichas"></div>
+  </section>
+
+  <!-- =============================================================== lista -->
+  <section id="v-tabla" role="tabpanel" aria-labelledby="t-tabla" hidden></section>
+
+  <!-- ============================================================= rutinas -->
+  <section id="v-rutinas" role="tabpanel" aria-labelledby="t-rutinas" hidden>
+    <div class="bloque">
+      <h2>Rutinas est&aacute;ndar de trabajo seguro</h2>
+      <p class="ayuda">Diez secuencias que ordenan el modo correcto de hacer cada tarea.
+        Toca el flujograma para verlo en grande.</p>
+      <div class="galeria" id="galeria"></div>
+    </div>
+  </section>
+
+  <!-- =========================================================== descargas -->
+  <section id="v-descargas" role="tabpanel" aria-labelledby="t-descargas" hidden>
+    <div class="bloque">
+      <h2>Descargar el IPERC en Excel</h2>
+      <p class="ayuda">La matriz completa, con los puntajes de antes y de hoy, los controles
+        aplicados y los pendientes. Cada libro trae una hoja de resumen.</p>
+      <div class="descargas" id="descargas"></div>
+    </div>
+    <div class="bloque">
+      <h2>Los flujogramas</h2>
+      <p class="ayuda">Las diez rutinas en imagen, listas para imprimir y pegar en el &aacute;rea.</p>
+      <div class="descargas" id="descargas-flujos"></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="env">
+    <p><b>&iquest;Viste un peligro nuevo o algo que falta?</b> Av&iacute;sale a tu jefe de &aacute;rea el mismo d&iacute;a.
+      Tienes derecho a rehusarte a un trabajo con peligro inminente (Ley N.&deg; 29783, art&iacute;culo 63).</p>
+    <p>Matriz elaborada seg&uacute;n la R.M. N.&deg; 050-2013-TR. Nivel de riesgo = (A+B+C+D) &times; severidad.
+      Flujogramas con la simbolog&iacute;a de la norma ISO 5807.</p>
+    <p>Mendoza Soplopuco, Adrian Santos &middot; Ramos Neyra, Anel Mileny &middot; Universidad C&eacute;sar Vallejo, 2026.</p>
+  </div>
+</footer>
+
+<div class="visor" id="visor" hidden role="dialog" aria-modal="true" aria-label="Flujograma">
+  <button class="cerrar" id="cerrarVisor" type="button" aria-label="Cerrar">&times;</button>
+  <img id="visorImg" src="" alt="">
+  <p class="pieV" id="visorPie"></p>
+</div>
+
+<button class="arriba" id="arriba" type="button" hidden aria-label="Volver arriba">&uarr;</button>
+
+<script src="assets/js/app.js" defer></script>
+</body>
+</html>
