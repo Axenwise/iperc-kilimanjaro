@@ -30,7 +30,7 @@ Empresa: HAPPY ZOO S.A.C. · Surco, Lima · Setiembre 2026.
 
 1. Crea un repositorio y sube el contenido de esta carpeta a la raíz.
 2. *Settings → Pages → Source: Deploy from a branch*, rama `main`, carpeta `/ (root)`.
-3. En unos minutos queda en `https://<usuario>.github.io/<repositorio>/`.
+3. En unos minutos queda en `https://axenwise.github.io/iperc-kilimanjaro/`.
 
 El archivo `.nojekyll` ya está incluido para que GitHub sirva las carpetas tal cual.
 
@@ -39,7 +39,7 @@ git init
 git add .
 git commit -m "Sitio de consulta del IPERC post-test"
 git branch -M main
-git remote add origin https://github.com/<usuario>/<repositorio>.git
+git remote add origin https://github.com/Axenwise/iperc-kilimanjaro.git
 git push -u origin main
 ```
 
