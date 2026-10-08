@@ -422,15 +422,27 @@ function irA(id){
 }
 function cerrarFiltros(){ $('filtros').hidden=true; $('plegar').setAttribute('aria-expanded','false'); }
 
+var SECCIONES = ['panel','areas','fichas','tabla','rutinas','descargas'];
+
+/* Cada seccion tiene su propia direccion (#rutinas, #descargas...), para poder
+   enlazarla o compartirla directamente. */
+function mostrar(v, conHash){
+  if(SECCIONES.indexOf(v) < 0) v = 'panel';
+  vista = v;
+  Array.prototype.forEach.call(document.querySelectorAll('nav .tab'), function(t){
+    t.setAttribute('aria-selected', t.id === 't'+'-'+v ? 'true' : 'false');});
+  SECCIONES.forEach(function(x){ $('v-'+x).hidden = (x !== v); });
+  if(conHash && location.hash.slice(1) !== v){
+    history.replaceState(null, '', '#'+v);
+  }
+  pintar();
+}
+
+addEventListener('hashchange', function(){ mostrar(location.hash.slice(1), false); });
+
 document.querySelector('nav').addEventListener('click',function(e){
   var b=e.target.closest('.tab'); if(!b) return;
-  vista = b.id.slice(2);
-  Array.prototype.forEach.call(this.querySelectorAll('.tab'),function(t){
-    t.setAttribute('aria-selected', t===b ? 'true':'false');});
-  ['panel','areas','fichas','tabla','rutinas','descargas'].forEach(function(v){
-    $('v-'+v).hidden = (v!==vista);
-  });
-  pintar();
+  mostrar(b.id.slice(2), true);
 });
 
 document.addEventListener('click',function(e){
@@ -538,7 +550,10 @@ function ponTema(v){
   bTema.setAttribute('aria-pressed', v==='oscuro' ? 'true':'false');
   bTema.querySelector('span').textContent = v==='oscuro' ? 'Modo claro' : 'Modo oscuro';
 }
-try{ var g=localStorage.getItem('tema'); if(g) ponTema(g); }catch(e){}
+/* ?tema=claro u ?tema=oscuro fuerza el modo; sirve para enlazar e imprimir */
+var forzado = (location.search.match(/[?&]tema=(claro|oscuro)/) || [])[1];
+if(forzado){ ponTema(forzado); }
+else { try{ var g=localStorage.getItem('tema'); if(g) ponTema(g); }catch(e){} }
 bTema.addEventListener('click',function(){
   var v = document.documentElement.getAttribute('data-tema')==='oscuro' ? 'claro' : 'oscuro';
   ponTema(v);
@@ -566,7 +581,7 @@ fetch('assets/datos/iperc.json')
       + '<div class="kpi"><b>'+altos+'</b><span>siguen en nivel alto</span></div>';
 
     montarFiltros();
-    pintar();
+    mostrar(location.hash.slice(1) || 'panel', false);
   })
   .catch(function(err){
     $('kpis').innerHTML = '<div class="kpi" style="grid-column:1/-1"><b>·</b><span>'
