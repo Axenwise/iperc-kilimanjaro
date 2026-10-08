@@ -5,7 +5,7 @@
 (function () {
 "use strict";
 
-var D = [], RUT = [], listo = false;
+var D = [], RUT = [], CAP = [], listo = false;
 
 var NIV = {
   'Intolerable': {v:5, c:'--n5', f:'--n5f', dice:'Muy alto: no se debe trabajar así'},
@@ -233,7 +233,7 @@ function ficha(r){
     h += '<div class="bloqueF"><p class="rot">'
       + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>'
       + 'Lo que ya se hizo</p><ul class="lista hecho">'
-      + r.hecho.map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ul></div>';
+      + r.hecho.map(function(x){return '<li>'+conSesion(esc(x))+'</li>';}).join('')+'</ul></div>';
   }
   if(r.pendiente.length){
     h += '<div class="bloqueF"><p class="rot">'
@@ -260,6 +260,15 @@ function ficha(r){
     + '</div></div></article>';
   return h;
 }
+/* Convierte «(Sesión 7)» en un botón que lleva a la diapositiva de esa sesión. */
+function conSesion(html){
+  return html.replace(/\(Sesi&oacute;n (\d+)\)|\(Sesión (\d+)\)/g, function(m, a, b){
+    var n = a || b;
+    return '<button class="marca-ses" type="button" data-ses="'+n+'" '
+         + 'title="Ver la diapositiva de la sesión '+n+'">Sesión '+n+'</button>';
+  });
+}
+
 function par(rot, val){return '<div class="par"><p class="rot">'+rot+'</p><p class="txt">'+val+'</p></div>';}
 function filaT(nom, o){
   return '<tr><td>'+nom+'</td><td>'+esc(o.A)+'</td><td>'+esc(o.B)+'</td><td>'+esc(o.C)+'</td>'
@@ -317,6 +326,36 @@ function pintarRutinas(){
   }).join('');
 }
 
+/* ==================================================== vista: capacitaciones */
+function pintarCapacitaciones(){
+  $('capacitaciones').innerHTML = CAP.map(function(c){
+    return '<article class="rut" id="ses-'+esc(c.num)+'">'
+      + '<button class="vista" type="button" data-img="assets/capacitaciones/sesion_'+esc(c.num)+'.png" '
+      +   'data-nombre="Sesión '+esc(c.num)+' · '+esc(c.titulo)+'" '
+      +   'aria-label="Ver la diapositiva de la sesión '+esc(c.num)+' en grande">'
+      +   '<img src="assets/capacitaciones/sesion_'+esc(c.num)+'_mini.jpg" '
+      +     'alt="Diapositiva de la sesión '+esc(c.num)+'" loading="lazy">'
+      +   '<span class="lupa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5M11 8v6M8 11h6"/></svg>Ver la diapositiva</span>'
+      + '</button>'
+      + '<button class="rcab" type="button" aria-expanded="false">'
+      +   '<span class="rcod">S'+esc(c.num)+'</span>'
+      +   '<span class="rtit"><b>'+esc(c.titulo)+'</b><span>'+esc(c.areas.join(' · '))
+      +     ' &middot; cubre '+c.peligros+' peligro'+(c.peligros===1?'':'s')+'</span></span>'
+      +   '<svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="m6 9 6 6 6-6"/></svg>'
+      + '</button>'
+      + '<div class="rcuerpo" hidden><ol class="pasos">'
+      +   c.puntos.map(function(p){return '<li>'+esc(p)+'</li>';}).join('')
+      + '</ol><div class="rpie">'
+      +   '<button class="rbtn ver-sesion" type="button" data-ses="'+esc(c.num)+'">'
+      +     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>'
+      +     'Ver sus peligros</button>'
+      +   '<a class="rbtn" href="assets/capacitaciones/sesion_'+esc(c.num)+'.png" download>'
+      +     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 19h16"/></svg>'
+      +     'Descargar</a>'
+      + '</div></div></article>';
+  }).join('');
+}
+
 /* ==================================================== vista: descargas */
 var LIBROS = [
   ['IPERC_post_test_General.xlsx', 'IPERC completo · las tres áreas', 'Matriz de los 74 peligros, con hoja de resumen y una hoja por área'],
@@ -351,6 +390,7 @@ function pintar(){
   if(vista==='panel'){ pintarPanel(); return; }
   if(vista==='areas'){ if(!$('areas').innerHTML) pintarAreas(); return; }
   if(vista==='rutinas'){ if(!$('galeria').innerHTML) pintarRutinas(); return; }
+  if(vista==='capacitaciones'){ if(!$('capacitaciones').innerHTML) pintarCapacitaciones(); return; }
   if(vista==='descargas'){ if(!$('descargas').innerHTML) pintarDescargas(); return; }
 
   var lista = filtrar();
@@ -422,7 +462,7 @@ function irA(id){
 }
 function cerrarFiltros(){ $('filtros').hidden=true; $('plegar').setAttribute('aria-expanded','false'); }
 
-var SECCIONES = ['panel','areas','fichas','tabla','rutinas','descargas'];
+var SECCIONES = ['panel','areas','fichas','tabla','rutinas','capacitaciones','descargas'];
 
 /* Cada seccion tiene su propia direccion (#rutinas, #descargas...), para poder
    enlazarla o compartirla directamente. */
@@ -492,10 +532,31 @@ document.addEventListener('click',function(e){
   /* flujograma a pantalla completa */
   var ver=e.target.closest('.vista');
   if(ver){
-    $('visorImg').src = 'assets/flujos/'+ver.dataset.cod+'.png';
-    $('visorImg').alt = 'Flujograma de la rutina '+ver.dataset.cod;
-    $('visorPie').textContent = ver.dataset.cod+' · '+ver.dataset.nombre;
+    $('visorImg').src = ver.dataset.img || ('assets/flujos/'+ver.dataset.cod+'.png');
+    $('visorImg').alt = ver.dataset.cod ? 'Flujograma de la rutina '+ver.dataset.cod
+                                        : ver.dataset.nombre;
+    $('visorPie').textContent = ver.dataset.cod
+      ? ver.dataset.cod+' · '+ver.dataset.nombre : ver.dataset.nombre;
     $('visor').hidden=false; $('cerrarVisor').focus();
+    return;
+  }
+  /* desde una sesión, ver los peligros que capacitó */
+  var vs=e.target.closest('.ver-sesion');
+  if(vs){
+    F={area:'',tipo:'',niv:'',q:'sesion '+vs.dataset.ses,fam:null};
+    $('q').value='Sesión '+vs.dataset.ses; $('borrar').hidden=false; reiniciarChips();
+    irA('fichas'); scrollTo({top:0,behavior:'smooth'});
+    return;
+  }
+  /* una mención «(Sesión N)» dentro de una ficha abre su diapositiva */
+  var ms=e.target.closest('.marca-ses');
+  if(ms){
+    irA('capacitaciones');
+    requestAnimationFrame(function(){
+      var art=$('ses-'+ms.dataset.ses);
+      if(art){ art.scrollIntoView({behavior:'smooth',block:'center'});
+               art.querySelector('.rcab').click(); }
+    });
     return;
   }
   if(e.target.closest('#cerrarVisor') || e.target.id==='visor'){ $('visor').hidden=true; return; }
@@ -565,10 +626,15 @@ addEventListener('scroll',function(){arriba.hidden = scrollY < 700;},{passive:tr
 arriba.addEventListener('click',function(){scrollTo({top:0,behavior:'smooth'});});
 
 /* ==================================================== arranque */
-fetch('assets/datos/iperc.json')
-  .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
-  .then(function(p){
-    D = p.peligros; RUT = p.rutinas; listo = true;
+Promise.all([
+  fetch('assets/datos/iperc.json').then(function(r){
+    if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); }),
+  fetch('assets/datos/capacitaciones.json').then(function(r){
+    return r.ok ? r.json() : []; }).catch(function(){ return []; })
+])
+  .then(function(res){
+    var p = res[0];
+    D = p.peligros; RUT = p.rutinas; CAP = res[1]; listo = true;
     D.forEach(function(r){ if(!(r.area in AREACOL)){
       AREACOL[r.area] = '--ar' + (Object.keys(AREACOL).length + 1); } });
 

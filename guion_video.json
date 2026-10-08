@@ -1,0 +1,65 @@
+[
+ {
+  "clave": "01",
+  "escena": "portada",
+  "dur": 7.51,
+  "palabras": 15,
+  "texto": "Setenta y cuatro peligros. Tres áreas de trabajo. Un restaurante como tantos otros en Lima."
+ },
+ {
+  "clave": "02",
+  "escena": "panel",
+  "dur": 11.44,
+  "palabras": 30,
+  "texto": "Antes de aplicar el plan de seguridad, cuarenta y siete de esos peligros estaban en el nivel más grave: intolerable. Hoy no queda ninguno. Setenta y dos bajaron de nivel."
+ },
+ {
+  "clave": "03",
+  "escena": "qr",
+  "dur": 15.09,
+  "palabras": 40,
+  "texto": "Pero una matriz que se queda en un archivador no protege a nadie. Por eso ahora está en el bolsillo de cada trabajador. Se entra apuntando la cámara del celular al código. Sin instalar nada, sin usuario y sin contraseña."
+ },
+ {
+  "clave": "04",
+  "escena": "areas",
+  "dur": 9.5,
+  "palabras": 26,
+  "texto": "Lo primero es elegir dónde trabajas: cocina, salón o lavado de utensilios. La consulta deja a la vista solo los peligros que te tocan a ti."
+ },
+ {
+  "clave": "05",
+  "escena": "ficha",
+  "dur": 18.55,
+  "palabras": 47,
+  "texto": "Cada peligro tiene su ficha, y todas se leen igual. Qué te puede pasar. Cómo cambió el riesgo, antes y hoy. Cómo se hace bien la tarea, paso a paso. Qué equipo de protección debes usar. Y, sobre todo, qué hacer si el peligro llega a ocurrir."
+ },
+ {
+  "clave": "06",
+  "escena": "rutinas",
+  "dur": 15.76,
+  "palabras": 38,
+  "texto": "Las buenas prácticas están ordenadas en diez rutinas estándar. Cada una trae su flujograma: el camino de la tarea, decisión por decisión. Si la respuesta es sí, continúas. Si es no, hay algo que corregir antes de seguir."
+ },
+ {
+  "clave": "07",
+  "escena": "capacitaciones",
+  "dur": 7.32,
+  "palabras": 20,
+  "texto": "Las seis capacitaciones que se dictaron también quedan registradas, con la diapositiva de cada sesión y los peligros que cubrió."
+ },
+ {
+  "clave": "08",
+  "escena": "excel",
+  "dur": 7.6,
+  "palabras": 25,
+  "texto": "Y para el jefe de área, la matriz completa en Excel, general y por área, junto al panel que muestra cómo se movió el riesgo."
+ },
+ {
+  "clave": "09",
+  "escena": "cierre",
+  "dur": 6.74,
+  "palabras": 15,
+  "texto": "Un plan de seguridad sirve cuando el trabajador puede consultarlo. Escanea el código y compruébalo."
+ }
+]

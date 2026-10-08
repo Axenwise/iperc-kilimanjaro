@@ -44,6 +44,8 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 5h18M3 12h18M3 19h18"/></svg>Lista</button>
     <button class="tab" role="tab" id="t-rutinas" aria-selected="false" aria-controls="v-rutinas">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="8" y="3" width="8" height="4" rx="1"/><path d="M12 7v4m0 0H7v3m5-3h5v3"/><rect x="3" y="14" width="7" height="4" rx="1"/><rect x="14" y="14" width="7" height="4" rx="1"/></svg>Rutinas</button>
+    <button class="tab" role="tab" id="t-capacitaciones" aria-selected="false" aria-controls="v-capacitaciones">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18v11H3z"/><path d="M8 20h8M12 16v4"/></svg>Capacitaciones</button>
     <button class="tab" role="tab" id="t-descargas" aria-selected="false" aria-controls="v-descargas">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 19h16"/></svg>Excel</button>
   </div>
@@ -123,6 +125,16 @@
       <p class="ayuda">Diez secuencias que ordenan el modo correcto de hacer cada tarea.
         Toca el flujograma para verlo en grande.</p>
       <div class="galeria" id="galeria"></div>
+    </div>
+  </section>
+
+  <!-- ====================================================== capacitaciones -->
+  <section id="v-capacitaciones" role="tabpanel" aria-labelledby="t-capacitaciones" hidden>
+    <div class="bloque">
+      <h2>Las capacitaciones que se dieron</h2>
+      <p class="ayuda">Seis sesiones dictadas al personal operativo en agosto de 2026.
+        Esta es la diapositiva de referencia de cada una, con el contenido que se trat&oacute;.</p>
+      <div class="galeria" id="capacitaciones"></div>
     </div>
   </section>
 
