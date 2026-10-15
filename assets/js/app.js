@@ -339,7 +339,7 @@ function pintarCapacitaciones(){
       + '</button>'
       + '<button class="rcab" type="button" aria-expanded="false">'
       +   '<span class="rcod">S'+esc(c.num)+'</span>'
-      +   '<span class="rtit"><b>'+esc(c.titulo)+'</b><span>'+esc(c.areas.join(' · '))
+      +   '<span class="rtit"><b>'+esc(c.titulo)+'</b><span>'+(c.fecha?esc(c.fecha)+' &middot; ':'')+esc(c.areas.join(' · '))
       +     ' &middot; cubre '+c.peligros+' peligro'+(c.peligros===1?'':'s')+'</span></span>'
       +   '<svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="m6 9 6 6 6-6"/></svg>'
       + '</button>'
@@ -543,7 +543,7 @@ document.addEventListener('click',function(e){
   /* desde una sesión, ver los peligros que capacitó */
   var vs=e.target.closest('.ver-sesion');
   if(vs){
-    F={area:'',tipo:'',niv:'',q:'sesion '+vs.dataset.ses,fam:null};
+    F={area:'',tipo:'',niv:'',q:'(sesion '+vs.dataset.ses+')',fam:null};
     $('q').value='Sesión '+vs.dataset.ses; $('borrar').hidden=false; reiniciarChips();
     irA('fichas'); scrollTo({top:0,behavior:'smooth'});
     return;
